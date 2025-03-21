@@ -117,11 +117,11 @@ const ProjectCard = ({
         >
             <div className='relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer'
                 onClick={handleNavigation}>
-                <ThumbnailPreview
+                {/* <ThumbnailPreview
                     theme={theme}
                 // TODO: Bring back slide data
                 // slide={JSON.parse(JSON.stringify(slideData))?.[0]}
-                />
+                /> */}
             </div>
 
             <div className="w-full">

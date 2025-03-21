@@ -8,7 +8,7 @@ type Props = {
     classname?: string
     description: string
     loading?: boolean
-    onCLick?: () => void
+    onClick?: () => void
     open: boolean
     handleOpen: () => void
 }
@@ -18,7 +18,7 @@ const AlertDialogBox = ({
     classname,
     description,
     loading,
-    onCLick,
+    onClick,
     open,
     handleOpen
 }: Props) => {
@@ -38,7 +38,7 @@ const AlertDialogBox = ({
                 <Button
                     variant={'destructive'}
                     className={`${classname}`}
-                    onClick={onCLick}
+                    onClick={onClick}
                 >
                     {loading ?
                         <>

@@ -10,7 +10,6 @@ import NewProjectBtn from './NewProjectBtn'
 
 type Props = {
     user: User
-    // children: React.ReactNode
 }
 
 const TopNavbar = ({

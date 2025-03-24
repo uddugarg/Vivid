@@ -39,6 +39,26 @@ const CardList = ({
 
     const dragOffsetY = useRef<number>(0)
 
+    const onAddCard = (index?: number) => {
+        const newCard: OutlineCard = {
+            id: Math.random().toString(36).substr(2, 9),
+            title: editText || "New Section",
+            order: (index !== undefined ? index + 1 : outlines.length) + 1
+        }
+
+        const updatedCards = index !== undefined
+            ?
+            [...outlines.slice(0, index + 1),
+                newCard,
+            ...outlines.slice(index + 1).map((card) => ({ ...card, order: card.order + 1 }))
+            ]
+            :
+            [...outlines, newCard]
+
+        addMultipleOutlines(updatedCards)
+        setEditText("")
+    }
+
     const onDragOver = (e: React.DragEvent, index: number) => {
         e.preventDefault()
         if (!draggedItem) return;
@@ -178,7 +198,7 @@ const CardList = ({
                             dragOverStyles={getDragOverStyles(index)}
                         />
                         <AddCardButton
-                        // onAddCard={() => onAddCard(index)}
+                            onAddCard={() => onAddCard(index)}
                         />
                     </React.Fragment>
 

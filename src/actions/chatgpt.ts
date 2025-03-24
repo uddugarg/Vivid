@@ -1,5 +1,3 @@
 'use server';
 
-export const generateCreativePrompt = () => {
-
-}
+export const generateCreativePrompt = async () => { }

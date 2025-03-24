@@ -1,6 +1,6 @@
 import { OutlineCard } from '@/lib/types'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import OutlineCardItem from './OutlineCardItem'
 import { Button } from '@/components/ui/button'
 import AddCardButton from './AddCardButton'
@@ -38,6 +38,10 @@ const CardList = ({
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
     const dragOffsetY = useRef<number>(0)
+
+    useEffect(() => {
+        console.log(outlines)
+    }, [])
 
     const onAddCard = (index?: number) => {
         const newCard: OutlineCard = {
@@ -83,7 +87,7 @@ const CardList = ({
 
         if (draggedIndex === -1 || draggedIndex === dragOverIndex) return;
 
-        const [removedCard] = updateCards.slice(draggedIndex, 1)
+        const [removedCard] = updateCards.splice(draggedIndex, 1)
         updateCards.splice(dragOverIndex > draggedIndex ? dragOverIndex - 1 : dragOverIndex, 0, removedCard)
 
         addMultipleOutlines(updateCards.map((card, index) => ({ ...card, order: index + 1 })))
@@ -148,8 +152,8 @@ const CardList = ({
             }
         } else if (cardIndex === dragOverIndex - 1) {
             return {
-                borderTop: '2px solid #000',
-                marginTop: '0.5rem',
+                borderBottom: '2px solid #000',
+                marginBottom: '0.5rem',
                 transition: 'margin 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
             }
         }

@@ -14,6 +14,8 @@ import { toast } from 'sonner'
 import { generateCreativePrompt } from '@/actions/chatgpt'
 import { OutlineCard } from '@/lib/types'
 import { v4 as uuid } from 'uuid'
+import { createProject } from '@/actions/project'
+import { useSlideStore } from '@/store/useSlideStore'
 
 type Props = {
     onBack: () => void
@@ -31,6 +33,8 @@ const CreativeAI = ({ onBack }: Props) => {
 
     const { prompts, addPrompts } = usePromptStore()
     const { currentAiPrompt, setCurrentAiPrompt, outlines, resetOutlines, addOutline, addMultipleOutlines } = useCreativeAIStore()
+    const { setProject } = useSlideStore();
+
 
     useEffect(() => {
         setNoOfCards(outlines.length)
@@ -48,9 +52,50 @@ const CreativeAI = ({ onBack }: Props) => {
         resetOutlines()
     }
 
-    //TODO: const handleGenerate = () => {
+    const handleGenerate = async () => {
+        setIsGenerating(true)
 
-    // }
+        if (outlines.length === 0) {
+            toast.error("Error", {
+                description: "Please add at least one card to generate slides"
+            })
+            return
+        }
+
+        try {
+            const res = await createProject(currentAiPrompt, outlines.slice(0, noOfCards))
+
+            if (res.status !== 200 || !res.data) {
+                throw new Error("Unable to create project")
+            }
+
+            setProject(res.data);
+            resetOutlines();
+
+            addPrompts({
+                id: uuid(),
+                title: currentAiPrompt || outlines?.[0]?.title,
+                outlines: outlines,
+                createdAt: new Date().toISOString()
+            })
+
+            toast.success("Success", {
+                description: "Project created successfully!"
+            });
+
+            router.push(`/presentation/${res.data.id}/select-theme`)
+
+            setCurrentAiPrompt("")
+            resetOutlines()
+        } catch (error) {
+            console.log(error)
+            toast.error("Error", {
+                description: "Failed to create the project"
+            });
+        } finally {
+            setIsGenerating(false)
+        }
+    }
 
 
     const generateOutline = async () => {
@@ -197,7 +242,7 @@ const CreativeAI = ({ onBack }: Props) => {
             {outlines.length > 0 && (
                 <Button
                     className='w-full'
-                    // onClick={handleGenerate}
+                    onClick={handleGenerate}
                     disabled={isGenerating}
                 >
                     {isGenerating ? (

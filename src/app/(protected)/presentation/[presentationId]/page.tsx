@@ -10,7 +10,9 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Navbar from './select-theme/_components/Navbar/Navbar';
+import Navbar from './_components/Navbar/Navbar';
+import LayoutPreview from './_components/Sidebar/LeftSidebar/LayoutPreview';
+import Editor from './_components/Editor/Editor';
 
 type Props = {}
 
@@ -66,6 +68,19 @@ const Page = (props: Props) => {
     >
         <div className='min-h-screen flex flex-col'>
             <Navbar presentationId={params.presentationId as string} />
+
+            <div className='flex-1 flex overflow-hidden pt-16'
+                style={{
+                    color: currentTheme.accentColor,
+                    fontFamily: currentTheme.fontFamily,
+                    backgroundColor: currentTheme.backgroundColor
+                }}
+            >
+                <LayoutPreview />
+                <div className="flex-1 ml-64 pr-16">
+                    <Editor isEditable={true} />
+                </div>
+            </div>
         </div>
     </DndProvider>
 }

@@ -1,8 +1,8 @@
 import { containerVariants } from '@/lib/constants'
 import { Project } from '@prisma/client'
-import { motion } from 'framer-motion'
 import React from 'react'
 import ProjectCard from './ProjectCard'
+import { motion } from 'framer-motion'
 
 type Props = {
     projects: Project[]

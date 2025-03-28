@@ -1,7 +1,8 @@
 "use client";
+
 import { Button } from '@/components/ui/button';
 import { useSlideStore } from '@/store/useSlideStore';
-import { Home, Share } from 'lucide-react';
+import { Home, Play, Share } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 import { toast } from 'sonner';
@@ -57,7 +58,22 @@ const Navbar = ({ presentationId }: Props) => {
                 >
                     <Share className='w-4 h-4' />
                 </Button>
+
+                {/* TODO: Add lemonsqueezy to sell template */}
+                {/* <SellTemplate /> */}
+
+                <Button variant={"default"}
+                    className='flex items-center gap-2'
+                    onClick={() => setIsPresentationMode(true)}
+                >
+                    <Play className='w-4 h-4' />
+                    <span className='hidden sm:inline'>Present</span>
+                </Button>
             </div>
+
+            {/* TODO: Add presentation mode */}
+            {/* {isPresentationMode && <PresentationMode/>} */}
+
         </nav>
     )
 }

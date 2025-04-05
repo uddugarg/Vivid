@@ -25,6 +25,13 @@ interface SlideState {
         contentId: string,
         newContent: string | string[] | string[][]
     ) => void
+
+    addComponentInSlide: (
+        slideId: string,
+        item: ContentItem,
+        parentId: string,
+        index: number
+    ) => void
 }
 
 const defaultTheme: Theme = {
@@ -113,6 +120,34 @@ export const useSlideStore = create(persist<SlideState>((set, get) =>
                     slide.id === slideId ? { ...slide, content: updateContentRecursively(slide.content) } : slide
                 ),
             }
+        })
+    },
+
+    addComponentInSlide: (slideId: string, item: ContentItem, parentId: string, index: number) => {
+        set((state) => {
+            const updatedSlides = state.slides.map((slide) => {
+                if (slide.id === slideId) {
+                    const updateContentRecursively = (content: ContentItem): ContentItem => {
+                        if (content.id === parentId && Array.isArray(content.content)) {
+                            const updatedContent = [...content.content];
+                            updatedContent.splice(index, 0, item);
+
+                            return {
+                                ...content,
+                                content: updatedContent as unknown as string[],
+                            }
+                        }
+
+                        return content
+                    }
+                    return {
+                        ...slide,
+                        content: updateContentRecursively(slide.content)
+                    }
+                }
+                return slide
+            })
+            return { slides: updatedSlides }
         })
     }
 }),

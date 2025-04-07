@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import UploadImage from "./UploadImage";
 
 type Props = {
   src: string;
@@ -21,7 +22,9 @@ const ImageComponent = ({
   isPreview,
   onContentChange,
   isEditable,
+  contentId,
 }: Props) => {
+  // TODO: add open ai image
   return (
     <div className="relative group w-full h-full rounded-lg">
       <Image
@@ -34,7 +37,12 @@ const ImageComponent = ({
       />
 
       {!isPreview && isEditable && (
-        <div className="absolute top-0 left-0 hidden group-hover:block"></div>
+        <div className="absolute top-0 left-0 hidden group-hover:block">
+          <UploadImage
+            contentId={contentId}
+            onContentChange={onContentChange}
+          />
+        </div>
       )}
     </div>
   );

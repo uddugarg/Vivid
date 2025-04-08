@@ -1,5 +1,19 @@
 import { HomeIcon, LayoutTemplateIcon, SettingsIcon, TrashIcon } from "lucide-react";
-import { Theme } from "./types";
+import { LayoutGroup, Theme } from "./types";
+import {
+    BlankCardIcon,
+    FourColumnsIcon,
+    FourImageColumnsIcon,
+    ImageAndTextIcon,
+    TextAndImageIcon,
+    ThreeColumnsIcon,
+    ThreeColumnsWithHeadingsIcon,
+    ThreeImageColumnsIcon,
+    TwoColumnsIcon,
+    TwoColumnsWithHeadingsIcon,
+    TwoImageColumnsIcon,
+} from "./IconsComponent";
+import { AccentLeft, AccentRight, BlankCard, FourColumns, FourImageColumns, ImageAndText, TextAndImage, ThreeColumns, ThreeColumnsWithHeadings, ThreeImageColumns, TwoColumns, TwoColumnsWithHeadings, TwoImageColumns } from "./slideLayouts";
 
 export const data = {
     user: {
@@ -376,5 +390,117 @@ export const CreatePageCard = [
         highlightedText: "Scratch",
         description: "Write a prompt and leave everything else for us to handle",
         type: "create-scratch",
+    },
+];
+
+export const layouts: LayoutGroup[] = [
+    {
+        name: "Basic",
+        layouts: [
+            {
+                name: "Blank card",
+                icon: BlankCardIcon,
+                type: "layout",
+                layoutType: "blank-card",
+                component: BlankCard,
+            },
+            {
+                name: "Image and text",
+                icon: ImageAndTextIcon,
+                type: "layout",
+                layoutType: "imageAndText",
+                component: ImageAndText,
+            },
+            {
+                name: "Text and image",
+                icon: TextAndImageIcon,
+                type: "layout",
+                layoutType: "textAndImage",
+                component: TextAndImage,
+            },
+            {
+                name: "Two Columns",
+                icon: TwoColumnsIcon,
+                type: "layout",
+                layoutType: "twoColumns",
+                component: TwoColumns,
+            },
+            {
+                name: "Two Columns with headings",
+                icon: TwoColumnsWithHeadingsIcon,
+                type: "layout",
+                layoutType: "twoColumnsWithHeadings",
+                component: TwoColumnsWithHeadings,
+            },
+            {
+                name: "Three Columns",
+                icon: ThreeColumnsIcon,
+                type: "layout",
+                layoutType: "threeColumns",
+                component: ThreeColumns,
+            },
+            {
+                name: "Three Columns with headings",
+                icon: ThreeColumnsWithHeadingsIcon,
+                type: "layout",
+                layoutType: "threeColumnsWithHeadings",
+                component: ThreeColumnsWithHeadings,
+            },
+
+            {
+                name: "Four Columns",
+                icon: FourColumnsIcon,
+                type: "layout",
+                layoutType: "fourColumns",
+                component: FourColumns,
+            },
+        ],
+    },
+
+    {
+        name: "Card layouts",
+        layouts: [
+            {
+                name: "Accent left",
+                icon: ImageAndTextIcon,
+                type: "layout",
+                layoutType: "accentLeft",
+                component: AccentLeft,
+            },
+            {
+                name: "Accent right",
+                icon: TextAndImageIcon,
+                type: "layout",
+                layoutType: "accentRight",
+                component: AccentRight,
+            },
+        ],
+    },
+
+    {
+        name: "Images",
+        layouts: [
+            {
+                name: "2 images columns",
+                icon: TwoImageColumnsIcon,
+                type: "layout",
+                layoutType: "twoImageColumns",
+                component: TwoImageColumns,
+            },
+            {
+                name: "3 images columns",
+                icon: ThreeImageColumnsIcon,
+                type: "layout",
+                layoutType: "threeImageColumns",
+                component: ThreeImageColumns,
+            },
+            {
+                name: "4 images columns",
+                icon: FourImageColumnsIcon,
+                type: "layout",
+                layoutType: "fourImageColumns",
+                component: FourImageColumns,
+            },
+        ],
     },
 ];

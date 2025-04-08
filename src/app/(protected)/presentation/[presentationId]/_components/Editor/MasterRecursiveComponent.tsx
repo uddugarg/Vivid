@@ -60,7 +60,15 @@ const ContentRenderer: FC<MasterRecursiveComponentProps> = React.memo(
       transition: { duration: 0.5 },
     };
 
-    // TODO: Complete Types
+    // Check if content is defined
+    if (!content) {
+      console.error("Content is undefined in ContentRenderer");
+      return null;
+    }
+
+    // Log content type for debugging
+    console.log(`Rendering content type: ${content.type}`, content);
+
     switch (content.type) {
       case "heading1":
         return (
@@ -118,16 +126,18 @@ const ContentRenderer: FC<MasterRecursiveComponentProps> = React.memo(
         );
       case "resizable-column":
         if (Array.isArray(content.content)) {
-          <motion.div className="w-full h-full" {...animationProps}>
-            <ColumnComponent
-              content={content.content as ContentItem[]}
-              className={content.className}
-              onContentChange={onContentChange}
-              slideId={slideId}
-              isPreview={isPreview}
-              isEditable={isEditable}
-            />
-          </motion.div>;
+          return (
+            <motion.div className="w-full h-full" {...animationProps}>
+              <ColumnComponent
+                content={content.content as ContentItem[]}
+                className={content.className}
+                onContentChange={onContentChange}
+                slideId={slideId}
+                isPreview={isPreview}
+                isEditable={isEditable}
+              />
+            </motion.div>
+          );
         }
         return null;
       case "image":
@@ -273,6 +283,7 @@ const ContentRenderer: FC<MasterRecursiveComponentProps> = React.memo(
         }
         return null;
       default:
+        console.warn(`Unhandled content type: ${content.type}`);
         return null;
     }
   }

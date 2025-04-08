@@ -1,88 +1,93 @@
-'use client';
+"use client";
 
-import { getProjectById } from '@/actions/project';
-import { themes } from '@/lib/constants';
-import { useSlideStore } from '@/store/useSlideStore';
-import { Loader2 } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { redirect, useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { toast } from 'sonner';
+import { getProjectById } from "@/actions/project";
+import { themes } from "@/lib/constants";
+import { useSlideStore } from "@/store/useSlideStore";
+import { Loader2 } from "lucide-react";
+import { useTheme } from "next-themes";
+import { redirect, useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Navbar from './_components/Navbar/Navbar';
-import LayoutPreview from './_components/Sidebar/LeftSidebar/LayoutPreview';
-import Editor from './_components/Editor/Editor';
+import Navbar from "./_components/Navbar/Navbar";
+import LayoutPreview from "./_components/Sidebar/LeftSidebar/LayoutPreview";
+import Editor from "./_components/Editor/Editor";
+import RightSidebar from "./_components/Sidebar/RightSidebar";
 
-type Props = {}
+type Props = {};
 
 const Page = (props: Props) => {
-    // TODO: Create Presentation Page
-    const params = useParams();
-    const { setTheme } = useTheme()
+  // TODO: Create Presentation Page
+  const params = useParams();
+  const { setTheme } = useTheme();
 
-    const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-    const { setSlides, setProject, currentTheme, setCurrentTheme } = useSlideStore()
+  const { setSlides, setProject, currentTheme, setCurrentTheme } =
+    useSlideStore();
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await getProjectById(params.presentationId as string)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getProjectById(params.presentationId as string);
 
-                if (res.status !== 200 || !res.data) {
-                    toast.error("Error", {
-                        description: "Unable to fetch the project!"
-                    })
-                    redirect('/dashboard');
-                }
+        if (res.status !== 200 || !res.data) {
+          toast.error("Error", {
+            description: "Unable to fetch the project!",
+          });
+          redirect("/dashboard");
+        }
 
-                const findTheme = themes.find((theme) => theme.name === res.data.themeName)
+        const findTheme = themes.find(
+          (theme) => theme.name === res.data.themeName
+        );
 
-                setCurrentTheme(findTheme || themes[0])
-                setTheme(findTheme?.type === "dark" ? "dark" : "light")
-                setProject(res.data)
-                setSlides(JSON.parse(JSON.stringify(res.data.slides)));
-            } catch (error) {
-                console.log(error);
-                toast.error("Error", {
-                    description: "An unexpected error occured"
-                })
-            } finally {
-                setLoading(false)
-            }
-        })()
-    }, [])
+        setCurrentTheme(findTheme || themes[0]);
+        setTheme(findTheme?.type === "dark" ? "dark" : "light");
+        setProject(res.data);
+        setSlides(JSON.parse(JSON.stringify(res.data.slides)));
+      } catch (error) {
+        console.log(error);
+        toast.error("Error", {
+          description: "An unexpected error occured",
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-    if (loading) {
-        return (
-            <div className='flex items-center justify-center h-screen'>
-                <Loader2 className='w-8 h-8 animate-spin text-primary' />
-            </div>
-        )
-    }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="min-h-screen flex flex-col">
+        <Navbar presentationId={params.presentationId as string} />
 
-    return <DndProvider
-        backend={HTML5Backend}
-    >
-        <div className='min-h-screen flex flex-col'>
-            <Navbar presentationId={params.presentationId as string} />
-
-            <div className='flex-1 flex overflow-hidden pt-16'
-                style={{
-                    color: currentTheme.accentColor,
-                    fontFamily: currentTheme.fontFamily,
-                    backgroundColor: currentTheme.backgroundColor
-                }}
-            >
-                <LayoutPreview />
-                <div className="flex-1 ml-64 pr-16">
-                    <Editor isEditable={true} />
-                </div>
-            </div>
+        <div
+          className="flex-1 flex overflow-hidden pt-16"
+          style={{
+            color: currentTheme.accentColor,
+            fontFamily: currentTheme.fontFamily,
+            backgroundColor: currentTheme.backgroundColor,
+          }}
+        >
+          <LayoutPreview />
+          <div className="flex-1 ml-64 pr-16">
+            <Editor isEditable={true} />
+          </div>
+          <RightSidebar />
         </div>
+      </div>
     </DndProvider>
-}
+  );
+};
 
-export default Page
+export default Page;

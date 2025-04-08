@@ -71,7 +71,6 @@ export type ContentType =
     | "heading3"
     | "title"
     | "heading4"
-    | "table"
     | "blockquote"
     | "numberedList"
     | "bulletedList"
@@ -84,7 +83,6 @@ export type ContentType =
     | "bulletList"
     | "codeBlock"
     | "customButton"
-    | "table"
     | "tableOfContents";
 
 

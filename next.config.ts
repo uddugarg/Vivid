@@ -39,6 +39,12 @@ const nextConfig: NextConfig = {
         hostname: "oaidalleapiprodscus.blob.core.windows.net",
         port: '',
         pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+        port: '',
+        pathname: "/**"
       }
     ]
   }

@@ -21,6 +21,9 @@ import NumberedList, {
   BulletList,
   TodoList,
 } from "@/components/global/Editor/List";
+import CalloutBox from "@/components/global/Editor/CalloutBox";
+import CodeBlock from "@/components/global/Editor/CodeBlock";
+import TableOfContents from "@/components/global/Editor/TableOfContents";
 
 type MasterRecursiveComponentProps = {
   content: ContentItem;
@@ -177,6 +180,38 @@ const ContentRenderer: FC<MasterRecursiveComponentProps> = React.memo(
             <TodoList
               items={content.content as string[]}
               onChange={(newItems) => onContentChange(content.id, newItems)}
+              className={content.className}
+            />
+          </motion.div>
+        );
+      case "calloutBox":
+        return (
+          <motion.div {...animationProps} className="w-full h-full">
+            <CalloutBox
+              type={content.callOutType || "info"}
+              className={content.className}
+            >
+              <Paragraph {...commonProps} />
+            </CalloutBox>
+          </motion.div>
+        );
+      case "codeBlock":
+        return (
+          <motion.div {...animationProps} className="w-full h-full">
+            <CodeBlock
+              code={content.code}
+              language={content.language}
+              onChange={() => {}}
+              className={content.className}
+            />
+          </motion.div>
+        );
+      case "tableOfContents":
+        return (
+          <motion.div {...animationProps} className="w-full h-full">
+            <TableOfContents
+              items={content.content as string[]}
+              onItemClick={(id) => console.log(`Navigate to section: ${id}`)}
               className={content.className}
             />
           </motion.div>

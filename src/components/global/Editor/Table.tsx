@@ -141,7 +141,7 @@ const TableComponent = ({
                     className="w-full h-full min-h-9"
                   >
                     <div className="relative w-full h-full min-h-3">
-                      <Input
+                      <input
                         value={cell}
                         onChange={(e) =>
                           updateCell(rowIndex, colIndex, e.target.value)

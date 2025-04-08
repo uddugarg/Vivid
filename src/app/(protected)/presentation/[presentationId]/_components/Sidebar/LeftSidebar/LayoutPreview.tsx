@@ -22,7 +22,7 @@ const LayoutPreview = (props: Props) => {
     }
   }, []);
   return (
-    <div className="w-72 h-full fixed left-0 top-20 border-r overflow-y-auto">
+    <div className="w-80 h-full fixed left-0 top-20 border-r overflow-y-auto">
       <ScrollArea className="h-full w-full" suppressHydrationWarning>
         {loading ? (
           <div className="w-full px-4 flex flex-col space-y-6">

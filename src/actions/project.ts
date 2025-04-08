@@ -281,3 +281,32 @@ export const updateSlides = async (projectId: string, slides: JsonValue) => {
         }
     }
 }
+
+export const updateTheme = async (projectId: string, theme: string) => {
+    try {
+        if (!projectId || !theme) {
+            return { status: 400, error: "project ID and slides are required" }
+        }
+
+        const updatedProject = await client.project.update({
+            where: {
+                id: projectId
+            },
+            data: {
+                themeName: theme
+            }
+        })
+
+        if (!updatedProject) {
+            return { status: 500, error: "Failed to update slides" }
+        }
+
+        return { status: 200, data: updatedProject }
+    } catch (error) {
+        console.log("Error updating theme", error);
+        return {
+            status: 500,
+            error: 'Internal server error'
+        }
+    }
+}
